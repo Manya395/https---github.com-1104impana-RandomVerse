@@ -1,104 +1,190 @@
-
 <html>
 <head>
 <meta charset="UTF-8" >
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Calming Sounds with Background</title>
+<title>Calming Sounds with Volume Slider</title>
 <style>
   body {
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    transition: background-image 0.5s ease-in-out;
+    background-color: black;
     color: #fff;
     height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    background-color:  #46264F;
+    justify-content: flex-start; /* Align content to top */
+    padding-top: 2rem;
   }
   h1 {
-    margin-bottom: 1rem;
+    font-size: 4rem;  /* Bigger font */
+    text-align: center;
+    margin-bottom: 3rem;
     text-shadow: 1px 1px 5px #000;
   }
-  .sound-buttons, .background-selector {
+  .sound-buttons {
     display: flex;
-    gap: 1rem;
-    margin-bottom: 3rem;
+    gap: 3rem;
+    margin-bottom: 2rem;
+    align-items: center;
   }
-  button {
-    padding: 1rem 1.5rem;
-    border: none;
-    border-radius: 100px;
-    font-size: 30px;
+  .sound-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     cursor: pointer;
-    background-color: #B08FBA;
-    color: #403ca0;
-    box-shadow: rgb(250, 250, 250);
+    user-select: none;
+  }
+  .sound-item img {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 0.5rem;
+    filter: drop-shadow(0 0 2px #fdfdfd);
+    transition: transform 0.3s;
+  }
+  .sound-item:hover img {
+    transform: scale(1.1);
+  }
+  .sound-item span {
+    font-size: 2.5rem;
+    color: #f8f7f9;
+    transition: text-decoration 0.3s;
+  }
+  .sound-item:hover span {
+    text-decoration: underline;
+  }
+  .volume-control {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    font-size: 20px;
+    width: 300px;
+    max-width: 90vw;
+  }
+  .volume-control label {
+    min-width: 70px;
+  }
+  .volume-slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 8px;
+    border-radius: 5px;
+    background: #fcfbfc;
+    outline: none;
+    cursor: pointer;
     transition: background 0.3s;
   }
-  button:hover {
+  .volume-slider:hover {
+    background: #f0eef1;
+  }
+  .volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #403ca0;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(64,60,160,0.7);
+    transition: background 0.3s;
+  }
+  .volume-slider::-webkit-slider-thumb:hover {
+    background: #5a52c9;
+  }
+  /* Firefox */
+  .volume-slider::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #403ca0;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(64,60,160,0.7);
+    transition: background 0.3s;
+  }
+  .volume-slider::-moz-range-thumb:hover {
+    background: #5a52c9;
+  }
+  #togglePlay {
+    margin-bottom: 1rem;
+    padding: 0.8rem 2rem;
+    font-size: 1.5rem;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    background-color: #f9f5fa;
+    color: #403ca0;
+    transition: background 0.3s;
+  }
+  #togglePlay:hover:not(:disabled) {
     background: rgb(246, 245, 245);
   }
-  .bg-thumb {
-    width: 200px;
-    height: 100px;
-    border-radius: 8px;
-    cursor: pointer;
-    object-fit: cover;
-    box-shadow: 0 0 5px #000;
-    border: 2px solid transparent;
-    transition: border-color 0.3s;
-  }
-  .bg-thumb:hover, .bg-thumb.selected {
-    border-color: #fff;
+  #togglePlay:disabled {
+    background-color: #f2f1f3;
+    cursor: not-allowed;
   }
 </style>
 </head>
 <body>
 
-<h1>Calming Sounds</h1><br><br>
+<h1>Calming Sounds</h1>
 
 <div class="sound-buttons">
-  <button data-sound="rain">Rain</button>
-  <button data-sound="ocean">Waves</button>
-  <button data-sound="birds">Birds Chirping</button>
+  <div class="sound-item" data-sound="rain" tabindex="0" role="button" aria-label="Play Rain Sound">
+    <img src="images/Happy Good Vibes GIF by Damnjobs.gif" alt="Rain Animation" />
+    <span>Rain</span>
+  </div>
+  <div class="sound-item" data-sound="ocean" tabindex="0" role="button" aria-label="Play Waves Sound">
+    <img src="" alt="Waves Animation" />
+    <span>Waves</span>
+  </div>
+  <div class="sound-item" data-sound="birds" tabindex="0" role="button" aria-label="Play Birds Chirping Sound">
+    <img src="https://i.imgur.com/JZzrB.gif" alt="Birds Animation" />
+    <span>Birds</span>
+  </div>
 </div>
 
 <button id="togglePlay" disabled>Play</button>
 
-<h2>Select Background</h2>
-<div class="background-selector">
-  <img src="images/Lake Bled, Slovenia.jpg" alt="Lake" class="bg-thumb" data-bg="images/Lake Bled, Slovenia.jpg">
-  <img src="images/Sunset Scenery.jpg" alt="Sunset" class="bg-thumb" data-bg="images/Sunset Scenery.jpg">
-  <img src="images/download (1).jpg" alt="beach" class="bg-thumb" data-bg="images/download (1).jpg" >
+<div class="volume-control">
+  <label for="volumeSlider">Volume:</label>
+  <input type="range" min="0" max="100" value="50" id="volumeSlider" class="volume-slider" />
+  <span id="volumeValue">50%</span>
 </div>
 
 <audio id="audioPlayer" loop></audio>
 
 <script>
   const sounds = {
-    rain: "audio/WhatsApp Audio 2025-05-24 at 16.38.01_1de04cc2.waptt.opus",
-    ocean: "audio/WhatsApp Audio 2025-05-24 at 16.39.44_e010a2d8.waptt.opus",
-    birds: "audio/WhatsApp Audio 2025-05-24 at 16.38.53_bad586eb.waptt.opus",
+    rain: "audio/rain-sounds-ambience-351115.mp3",
+    ocean: "audio/ocean-waves-112906.mp3",
+    birds: "audio/chirping-birds-ambience-217410.mp3",
   };
 
   const audioPlayer = document.getElementById("audioPlayer");
-  const buttons = document.querySelectorAll(".sound-buttons button");
-  const bgThumbs = document.querySelectorAll(".bg-thumb");
-   const togglePlayBtn = document.getElementById("togglePlay");
+  const soundItems = document.querySelectorAll(".sound-item");
+  const togglePlayBtn = document.getElementById("togglePlay");
+  const volumeSlider = document.getElementById("volumeSlider");
+  const volumeValue = document.getElementById("volumeValue");
 
-  buttons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const sound = btn.getAttribute("data-sound");
+  // Initialize volume at 0.5 (50%)
+  audioPlayer.volume = 0.5;
+
+  soundItems.forEach((item) => {
+    item.addEventListener("click", () => {
+      const sound = item.getAttribute("data-sound");
       if (sounds[sound]) {
         audioPlayer.src = sounds[sound];
         audioPlayer.play();
         togglePlayBtn.textContent = "Pause";
         togglePlayBtn.disabled = false;
+      }
+    });
+
+    item.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        item.click();
       }
     });
   });
@@ -113,13 +199,18 @@
     }
   });
 
-  bgThumbs.forEach((img) => {
-    img.addEventListener("click", () => {
-      bgThumbs.forEach(i => i.classList.remove("selected"));
-      img.classList.add("selected");
-      document.body.style.backgroundImage = `url('${img.getAttribute("data-bg")}')`;
-    });
+  volumeSlider.addEventListener("input", () => {
+    const vol = volumeSlider.value / 100;
+    audioPlayer.volume = vol;
+    volumeValue.textContent = volumeSlider.value + "%";
   });
+
+  // Update slider and text on load (in case volume is changed elsewhere)
+  function updateVolumeDisplay() {
+    volumeSlider.value = Math.round(audioPlayer.volume * 100);
+    volumeValue.textContent = volumeSlider.value + "%";
+  }
+  updateVolumeDisplay();
 </script>
 
 </body>
